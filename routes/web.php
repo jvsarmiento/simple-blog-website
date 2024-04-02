@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\BlogController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +21,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Auth::routes();
 
 Route::resource('blogs', BlogController::class);
+
+Route::resource('blogs.comments', CommentController::class)
+    ->scoped(['comment' => 'blog'])
+    ->only(['create', 'store']);

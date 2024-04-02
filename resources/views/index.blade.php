@@ -46,23 +46,28 @@
                                     <div id="collapse-{{ $blog->id}}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ $blog->id}}">
                                         <div class="accordion-body">
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <figure>
-                                                        <blockquote class="blockquote">
-                                                            <p>Comment #1</p>
-                                                        </blockquote>
-                                                        <figcaption class="blockquote-footer">
-                                                            Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
-                                                        </figcaption>
-                                                    </figure>
-                                                </li>
+                                                @foreach ($blog->comments as $comment)
+                                                    <li class="list-group-item">
+                                                        <figure>
+                                                            <blockquote class="blockquote">
+                                                                <p>{{ $comment->comment }}</p>
+                                                            </blockquote>
+                                                            <figcaption class="blockquote-footer">
+                                                                {{ $comment->user->name }} <small>( {{ $comment->created_at->diffForHumans() }} )</small>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </li>
+                                                @endforeach
                                             </ul>
-                                            <form>
+                                            @if (Auth::check())
+                                            <form method="POST" action="{{ route('blogs.comments.store', $blog) }}">
+                                                @csrf
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="Enter your comment here..." />
-                                                    <button class="btn btn-dark" type="button">Submit</button>
+                                                    <input type="text" name="comment" class="form-control" placeholder="Enter your comment here..." />
+                                                    <button type="submit" class="btn btn-dark">Submit</button>
                                                 </div>
                                             </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -71,12 +76,18 @@
                     </div>
                 </article>
             @empty
-
+                <div class="px-4 py-5 text-center">
+                    <h3 class="fw-bold text-body-emphasis">
+                        No Blog Posted Yet
+                    </h3>
+                    <a href="{{ route('blogs.create') }}" class="btn btn-warning btn-sm px-4 gap-3">Post a new Blog</a>
+                </div>
             @endforelse
-            {{-- Pagination --}}
-        <div class="d-flex justify-content-center">
-            {{ $blogs->links() }}
-        </div>
+            <div class="d-flex justify-content-center">
+                @if ($blogs)
+                    {{ $blogs->links() }}
+                @endif
+            </div>
         </section>
     </main>
 @endsection
