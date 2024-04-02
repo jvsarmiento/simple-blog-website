@@ -19,9 +19,12 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $blogs = Blog::where('user_id', auth()->user()->id)->get();
+        $search = $request->input('search');
+
+        $blogs = Blog::when($search, fn ($query, $search) => $query->search($search))
+                    ->where('user_id', auth()->user()->id)->get();
 
         return view('blogs.index', [
             'blogs' => $blogs

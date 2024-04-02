@@ -23,9 +23,20 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h4 class="fw-bolder m-0 p-0">List</h4>
-                        <a href="{{ route('blogs.create') }}" class="btn btn-success btn-sm">Add</a>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                            <h4 class="fw-bolder m-0 p-0 d-inline">List</h4>
+                            <a href="{{ route('blogs.create') }}" class="ms-3 btn btn-success btn-sm">Add</a>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <form method="GET" action="{{ route('blogs.index') }}">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by title or desc..." value="{{ request('search') }}" />
+                                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                                    <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary">Clear</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
