@@ -21,54 +21,62 @@
 
     <main class="container">
         <section class="my-5">
-            <article>
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-body pb-0">
-                        <figure>
-                            <blockquote class="blockquote">
-                                <h3 class="fw-bolder">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque, pariatur.</h3>
-                                <p>A well-known quote, contained in a blockquote element.</p>
-                            </blockquote>
-                            <figcaption class="blockquote-footer">
-                                Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="card-footer">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Show all comments
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <figure>
-                                                    <blockquote class="blockquote">
-                                                        <p>Comment #1</p>
-                                                    </blockquote>
-                                                    <figcaption class="blockquote-footer">
-                                                        Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                        </ul>
-                                        <form>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Enter your comment here..." />
-                                                <button class="btn btn-dark" type="button">Submit</button>
-                                            </div>
-                                        </form>
+            @forelse ($blogs as $blog)
+                <article>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body pb-0">
+                            <figure>
+                                <blockquote class="blockquote">
+                                    <h3 class="fw-bolder">{{ $blog->title }}.</h3>
+                                    <p>{{ $blog->description }}</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer">
+                                    {{ $blog->user->name }} <small>({{ $blog->created_at->diffForHumans() }})</small>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer">
+                            <div class="accordion" id="accordion-{{ $blog->id}}">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $blog->id}}" aria-expanded="true" aria-controls="collapse-{{ $blog->id}}">
+                                            Show all comments
+                                        </button>
+                                    </h2>
+                                    <div id="collapse-{{ $blog->id}}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ $blog->id}}">
+                                        <div class="accordion-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <figure>
+                                                        <blockquote class="blockquote">
+                                                            <p>Comment #1</p>
+                                                        </blockquote>
+                                                        <figcaption class="blockquote-footer">
+                                                            Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
+                                                        </figcaption>
+                                                    </figure>
+                                                </li>
+                                            </ul>
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Enter your comment here..." />
+                                                    <button class="btn btn-dark" type="button">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            @empty
+
+            @endforelse
+            {{-- Pagination --}}
+        <div class="d-flex justify-content-center">
+            {{ $blogs->links() }}
+        </div>
         </section>
     </main>
 @endsection
