@@ -6,13 +6,15 @@
             <span class="fs-4">Welcome to</span>
             <h1 class="display-5 fw-bold text-body-emphasis">{{ config('name', 'Simple Blog Website') }}</h1>
             <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4">
+                <p class="lead">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore incidunt, ab nobis eum libero, animi assumenda adipisci molestias veniam illo ea doloribus accusamus aspernatur quasi.
                 </p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <a href="{{ route('login') }}" class="btn btn-warning btn-lg px-4 gap-3">Login</a>
-                    <a href="{{ route('register') }}" class="btn btn-outline-dark btn-lg px-4">Register</a>
-                </div>
+                @if (!Auth::check())
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                        <a href="{{ route('login') }}" class="btn btn-warning btn-lg px-4 gap-3">Login</a>
+                        <a href="{{ route('register') }}" class="btn btn-outline-dark btn-lg px-4">Register</a>
+                    </div>
+                @endif
             </div>
         </div>
     </header>
