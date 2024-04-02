@@ -7,7 +7,7 @@
             <h1 class="display-5 fw-bold text-body-emphasis">{{ config('name', 'Simple Blog Website') }}</h1>
             <div class="col-lg-6 mx-auto">
                 <p class="lead">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore incidunt, ab nobis eum libero, animi assumenda adipisci molestias veniam illo ea doloribus accusamus aspernatur quasi.
+                    This simple blog website is for technical exam purposes only
                 </p>
                 @if (!Auth::check())
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
@@ -46,7 +46,7 @@
                                     <div id="collapse-{{ $blog->id}}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ $blog->id}}">
                                         <div class="accordion-body">
                                             <ul class="list-group list-group-flush">
-                                                @foreach ($blog->comments as $comment)
+                                                @forelse ($blog->comments as $comment)
                                                     <li class="list-group-item">
                                                         <figure>
                                                             <blockquote class="blockquote">
@@ -57,7 +57,15 @@
                                                             </figcaption>
                                                         </figure>
                                                     </li>
-                                                @endforeach
+                                                @empty
+                                                    <li class="list-group-item">
+                                                        <figure>
+                                                            <blockquote class="blockquote">
+                                                                <p>No comment posted yet.</p>
+                                                            </blockquote>
+                                                        </figure>
+                                                    </li>
+                                                @endforelse
                                             </ul>
                                             @if (Auth::check())
                                             <form method="POST" action="{{ route('blogs.comments.store', $blog) }}">

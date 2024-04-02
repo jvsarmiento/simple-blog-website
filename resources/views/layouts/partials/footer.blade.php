@@ -4,25 +4,25 @@
             <div class="p-3">
                 <h3 class="text-warning">{{ config('app.name', 'Simple Blog Website') }}</h3>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet, a illum doloribus aliquid repellendus expedita autem praesentium asperiores neque voluptate dolor quas deserunt accusamus explicabo.
+                    This simple blog website is for technical exam purposes only. All features and fuctionalities of this blog website are requirements of the employer. Thank you!
                 </p>
             </div>
         </div>
         <div class="col-12 col-md-4">
             <div class="p-3">
-                <h3>Latest Blog</h3>
+                <h3>Quick Links</h3>
                 <ul>
                     <li>
-                        <a href="#">Blog 1</a>
+                        <a href="{{ route('home') }}">Home</a>
                     </li>
                     <li>
-                        <a href="#">Blog 2</a>
+                        <a href="{{ route('blogs.index') }}">Blogs</a>
                     </li>
                     <li>
-                        <a href="#">Blog 3</a>
+                        <a href="{{ route('login') }}">Login</a>
                     </li>
                     <li>
-                        <a href="#">Blog 4</a>
+                        <a href="{{ route('register') }}">Register</a>
                     </li>
                 </ul>
             </div>
