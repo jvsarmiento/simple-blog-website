@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -37,13 +38,10 @@ class BlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(BlogRequest $request): RedirectResponse
     {
         Blog::create([
-            ...$request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-            ]),
+            ...$request->validated(),
             'user_id' => auth()->user()->id
         ]);
 
@@ -75,12 +73,9 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
+    public function update(BlogRequest $request, Blog $blog)
     {
-        $blog->update($request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]));
+        $blog->update($request->validated());
 
         return redirect()->route('blogs.index')->with([
             'alert-message' => 'Blog updated successfully.'
