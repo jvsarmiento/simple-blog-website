@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,4 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Auth::routes();
 
-Route::get('/blogs', function(){
-    return view('blogs.index');
-})->name('blogs.index');
+Route::resource('blogs', BlogController::class);
