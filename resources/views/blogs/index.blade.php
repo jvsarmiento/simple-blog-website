@@ -9,61 +9,58 @@
                 <p class="lead mb-4">
                     You can manage your blogs here
                 </p>
-                <a href="#" class="btn btn-warning btn-lg px-4 gap-3">Add New Blog</a>
             </div>
         </div>
     </header>
 
     <main class="container">
         <section class="my-5">
-            <article>
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-body pb-0">
-                        <figure>
-                            <blockquote class="blockquote">
-                                <h3 class="fw-bolder">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque, pariatur.</h3>
-                                <p>A well-known quote, contained in a blockquote element.</p>
-                            </blockquote>
-                            <figcaption class="blockquote-footer">
-                                Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="card-footer">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Show all comments
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <figure>
-                                                    <blockquote class="blockquote">
-                                                        <p>Comment #1</p>
-                                                    </blockquote>
-                                                    <figcaption class="blockquote-footer">
-                                                        Jefferson V. Sarmiento <small>( January 01, 2000 )</small>
-                                                    </figcaption>
-                                                </figure>
-                                            </li>
-                                        </ul>
-                                        <form>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Enter your comment here..." />
-                                                <button class="btn btn-dark" type="button">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            @if (session()->has('alert-message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{ session('alert-message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h4 class="fw-bolder m-0 p-0">List</h4>
+                        <a href="{{ route('blogs.create') }}" class="btn btn-success btn-sm">Add</a>
                     </div>
                 </div>
-            </article>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover table-sm w-100">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th class="text-center" width="15%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($blogs as $blog)
+                                <tr>
+                                    <td>{{ $blog->title }}</td>
+                                    <td>{{ $blog->description }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('blogs.show', $blog) }}" class="btn btn-dark btn-sm">View</a>
+                                        <a href="{{ route('blogs.edit', $blog) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <form class="d-inline" method="POST" action="{{ route('blogs.destroy', $blog) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center">No blog posted yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
     </main>
 @endsection
